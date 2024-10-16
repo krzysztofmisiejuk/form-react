@@ -1,0 +1,49 @@
+#root {
+	--blue-color: #4169e1;
+	--blue-light: #7496fc;
+	--black-color: #000000;
+	--grey-main: #232323;
+	--grey-light: #383838;
+	--grey-dark: #161616;
+	--green-color: #145802;
+	--ogrange-color: #ffa500;
+	--red-color: #da2121;
+
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-family: Arial, Helvetica, sans-serif;
+	
+}
+
+h1 {
+	font-size: 1.7rem;
+	color: var(--green-color);
+}
+
+h2 {
+	font-size: 1.3rem;
+	margin: 1rem 0 0.25rem;
+	font-weight: lighter;
+	color: var(--ogrange-color);
+}
+
+button {
+	margin: 0.5rem;
+	padding: 0.4rem 0.8rem;
+	width: 90%;
+	border-radius: 5px;
+	align-self: center;
+	background-color: var(--blue-color);
+	color: var(--black-color);
+	transition: 0.3s background-color;
+}
+button:hover {
+	background-color: var(--blue-light);
+}
+
+
