@@ -1,8 +1,9 @@
+import ButtonComponent from '../buttonComponent/index.js';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useState } from 'react';
-import style from './Form.module.css';
+import * as z from 'zod';
+import style from './FormComponent.module.css';
 
 const formSchema = (isExperienceChecked) =>
 	z.object({
@@ -57,7 +58,8 @@ const formSchema = (isExperienceChecked) =>
 							.optional(),
 					})
 			  ),
-		cv: z.instanceof(FileList)
+		cv: z
+			.instanceof(FileList)
 			.refine((files) => files?.length > 0, {
 				message: 'Musisz dodać swoje cv',
 			})
@@ -69,7 +71,7 @@ const formSchema = (isExperienceChecked) =>
 			),
 	});
 
-const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
+const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className }) => {
 	const [isExperienceChecked, setIsExperienceChecked] = useState(false);
 
 	const {
@@ -89,10 +91,8 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 	});
 
 	const isCvAdded = watch('cv');
-	console.log('errors', errors);
 
 	const onSubmit = (data) => {
-		console.log(data);
 		const fileURL = URL.createObjectURL(isCvAdded[0]);
 		setIsFormSubmitted(true);
 		setModalImg(fileURL);
@@ -100,12 +100,11 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 		reset();
 	};
 
-	console.log(errors?.experience?.message);
 	return (
 		<>
 			<h1>Formularz zgłoszeniowy na kurs programowania</h1>
 			<form
-				className={style.form}
+				className={className}
 				onSubmit={handleSubmit(onSubmit)}
 				encType='multipart/form-data'
 			>
@@ -121,7 +120,6 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 					{errors.firstName && (
 						<span className={style.error}>{errors.firstName.message}</span>
 					)}
-
 					<input
 						type='text'
 						id='lastName'
@@ -132,7 +130,6 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 					{errors.lastName && (
 						<span className={style.error}>{errors.lastName.message}</span>
 					)}
-
 					<input
 						type='text'
 						id='email'
@@ -143,7 +140,6 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 					{errors.email && (
 						<span className={style.error}>{errors.email.message}</span>
 					)}
-
 					<input
 						type='number'
 						id='phoneNumber'
@@ -155,7 +151,6 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 						<span className={style.error}>{errors.phoneNumber.message}</span>
 					)}
 				</div>
-
 				<div>
 					<h2>Preferencje Kursu</h2>
 					<div className={style.row}>
@@ -231,7 +226,8 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 
 					{isExperienceChecked && (
 						<>
-							<button
+							<ButtonComponent
+								text='Dodaj doświadczenie'
 								className={style.add_exp_button}
 								onClick={(e) => {
 									e.preventDefault();
@@ -240,9 +236,7 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 										yearsOfExperience: '',
 									});
 								}}
-							>
-								Dodaj doświadczenie
-							</button>
+							/>
 
 							{isExperienceChecked && errors?.experience && (
 								<span className={style.error}>
@@ -256,8 +250,6 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 										key={field.id}
 										className={style.add_exp_box}
 									>
-										{console.log(field)}
-										{console.log(field.id)}
 										<select
 											{...register(`experience.${index}.expTechnology`, {
 												required: isExperienceChecked
@@ -284,13 +276,11 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 											<option value='5'>5</option>
 										</select>
 
-										<button
-											type='button'
+										<ButtonComponent
+											text='Usuń'
 											className={style.delete_exp_button}
 											onClick={() => remove(index)}
-										>
-											Usuń
-										</button>
+										/>
 									</div>
 									{isExperienceChecked &&
 										(errors.experience?.[index]?.expTechnology ||
@@ -304,11 +294,13 @@ const Form = ({ setIsFormSubmitted, setModalImg, setUserData }) => {
 						</>
 					)}
 				</div>
-
-				<button type='submit'>Wyślij zgłoszenie</button>
+				<ButtonComponent
+					type='submit'
+					text='Wyślij zgłoszenie'
+				/>
 			</form>
 		</>
 	);
 };
 
-export default Form;
+export default FormComponent;

@@ -32,18 +32,13 @@ h2 {
 	color: var(--ogrange-color);
 }
 
-button {
-	margin: 0.5rem;
-	padding: 0.4rem 0.8rem;
-	width: 90%;
-	border-radius: 5px;
-	align-self: center;
-	background-color: var(--blue-color);
-	color: var(--black-color);
-	transition: 0.3s background-color;
-}
-button:hover {
-	background-color: var(--blue-light);
-}
 
-
+.main_container {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: start;
+	padding: 1rem;
+	background-color: var(--grey-dark);
+	min-width: 420px
+}

@@ -1,5 +1,5 @@
 
-.modal_container {
+.main_container {
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
@@ -9,7 +9,7 @@
 	min-width: 420px
 }
 
-.modal_container div {
+.main_container div {
 	text-align: left;
 	width: 100%;
 	border-bottom: 1px solid var(--grey-light);

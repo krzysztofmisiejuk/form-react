@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import Form from './components/Form/Form.jsx';
-import Modal from './components/modal/Modal.jsx';
+import { FormComponent, FormSummary } from './components/index.js';
 import './App.css';
 
 function App() {
@@ -11,12 +10,14 @@ function App() {
 	return (
 		<>
 			{isFormSubmitted ? (
-				<Modal
+				<FormSummary
+					className='main_container'
 					imgSrc={modalImg}
 					userData={userData}
 				/>
 			) : (
-				<Form
+				<FormComponent
+					className='main_container'
 					setIsFormSubmitted={setIsFormSubmitted}
 					setModalImg={setModalImg}
 					setUserData={setUserData}

@@ -7,15 +7,7 @@ div {
 	text-align: center;
 }
 
-form {
-	padding: 1rem;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	color: var(--grey-main);
-	background-color: var(--grey-dark);
-	min-width: 420px;
-}
+
 form div {
 	width: 100%;
 	display: flex;
