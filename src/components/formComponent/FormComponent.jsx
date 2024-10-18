@@ -28,9 +28,7 @@ const formSchema = (isExperienceChecked) =>
 			.string()
 			.min(1, { message: 'Numer telefonu jest wymagany' })
 			.min(9, { message: 'Zbyt krótki numer telefonu' }),
-		preferences: z.enum(['stacjonarny', 'online'], {
-			message: 'Musisz wybrać formę nauki',
-		}),
+		preferences: z.enum(['stacjonarny', 'online']),
 		prefTechnology: z
 			.array(z.enum(['React', 'Node.js', 'CSS', 'HTML', 'Next.js']), {
 				message: 'Musisz wybrać preferowaną technologię',
@@ -86,7 +84,7 @@ const FormComponent = ({
 	className,
 }) => {
 	const [isExperienceChecked, setIsExperienceChecked] = useState(false);
-
+	
 	const {
 		register,
 		handleSubmit,
@@ -152,23 +150,23 @@ const FormComponent = ({
 					<div className={style.row}>
 						<p>Wybierz formę nauki:</p>
 						<div>
-							<input
+							<InputComponent
 								type='radio'
 								name='preferences'
 								value='stacjonarny'
 								id='stationary'
-								{...register('preferences')}
+								register={register}
 								defaultChecked
 							/>
 							<label htmlFor='stationary'>Stacjonarne</label>
 						</div>
 						<div>
-							<input
+							<InputComponent
 								type='radio'
 								name='preferences'
 								value='online'
 								id='online'
-								{...register('preferences')}
+								register={register}
 							/>
 							<label htmlFor='online'>Online</label>
 						</div>
@@ -235,7 +233,10 @@ const FormComponent = ({
 							)}
 
 							{fields.map((field, index) => (
-								<div className={style.add_exp_container} key={field.id}>
+								<div
+									className={style.add_exp_container}
+									key={field.id}
+								>
 									<div className={style.add_exp_fields}>
 										<SelectComponent
 											name={`experience.${index}.expTechnology`}

@@ -4,9 +4,11 @@ const InputComponent = ({
 	id = name,
 	placeholder,
 	error,
+	value,
 	register,
 	classNameError,
 	onClick,
+	defaultChecked,
 }) => {
 	return (
 		<>
@@ -14,9 +16,11 @@ const InputComponent = ({
 				type={type}
 				name={name}
 				id={id}
+				value={value}
 				placeholder={placeholder}
-				{...register(name)}
 				onClick={onClick}
+				defaultChecked={defaultChecked}
+				{...register(name)}
 			/>
 			{error && <span className={classNameError}>{error.message}</span>}
 		</>

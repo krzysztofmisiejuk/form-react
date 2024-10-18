@@ -34,14 +34,13 @@ input[type="radio"]{
 
 input[type='text'],
 input[type='number'],
-input[type='file'],
-button {
+input[type='file']{
 	margin: 0.5rem;
 	padding: 0.4rem 0.8rem;
 	width: 90%;
 	border-radius: 5px;
 }
-button,
+
 input[type='text'],
 input[type='number'] {
 	align-self: center;
@@ -50,9 +49,6 @@ input[type='number'] {
 	border: none;
 }
 
-button {
-	background-color: var(--blue-color);
-}
 .add_exp_container{
 	text-align: left;
 }
