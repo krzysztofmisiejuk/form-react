@@ -53,8 +53,11 @@ input[type='number'] {
 button {
 	background-color: var(--blue-color);
 }
+.add_exp_container{
+	text-align: left;
+}
 
-.add_exp_box {
+.add_exp_fields {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	justify-content: start;
@@ -71,8 +74,8 @@ button {
 	background-color: var(--green-color);
 }
 
-.add_exp_box button,
-.add_exp_box select {
+.add_exp_fields button,
+.add_exp_fields select {
 	margin: 0;
 	padding: 0.5rem 1.2rem;
 	border-radius: 0.5rem;

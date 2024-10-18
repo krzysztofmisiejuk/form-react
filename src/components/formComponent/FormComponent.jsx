@@ -202,15 +202,14 @@ const FormComponent = ({
 				</FormSectionComponent>
 				<FormSectionComponent headerText='Doświadczenie w programowaniu'>
 					<div className={style.row}>
-						<input
+						<InputComponent
 							type='checkbox'
-							id='experience'
 							name='experienceCheckbox'
-							onClick={() => {
-								setIsExperienceChecked(!isExperienceChecked);
-							}}
+							register={register}
+							onClick={() => setIsExperienceChecked(!isExperienceChecked)}
 						/>
-						<label htmlFor='experience'>
+
+						<label htmlFor='experienceCheckbox'>
 							Czy masz doświadczenie w programowaniu?
 						</label>
 					</div>
@@ -236,11 +235,8 @@ const FormComponent = ({
 							)}
 
 							{fields.map((field, index) => (
-								<>
-									<div
-										key={field.id}
-										className={style.add_exp_box}
-									>
+								<div className={style.add_exp_container} key={field.id}>
+									<div className={style.add_exp_fields}>
 										<SelectComponent
 											name={`experience.${index}.expTechnology`}
 											register={register}
@@ -274,7 +270,7 @@ const FormComponent = ({
 												Uzupełnij dane dotyczące doświadczenia
 											</span>
 										)}
-								</>
+								</div>
 							))}
 						</>
 					)}
