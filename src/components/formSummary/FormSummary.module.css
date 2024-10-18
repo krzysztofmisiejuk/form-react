@@ -1,0 +1,9 @@
+.summary_data_container {
+	text-align: left;
+	width: 100%;
+	border-bottom: 1px solid var(--grey-light);
+}
+
+img{
+	align-self: center;
+}
