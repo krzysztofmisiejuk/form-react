@@ -1,4 +1,9 @@
-import ButtonComponent from '../buttonComponent/index.js';
+import {
+	ButtonComponent,
+	FormSectionComponent,
+	InputComponent,
+	SelectComponent,
+} from '../index';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -60,25 +65,32 @@ const formSchema = (isExperienceChecked) =>
 			  ),
 		cv: z
 			.instanceof(FileList)
-			.refine((files) => files?.length > 0, {
-				message: 'Musisz dodać swoje cv',
+			.refine((files) => files.length === 1, {
+				message: 'Musisz dodać swoje CV',
 			})
 			.refine(
-				(files) =>
-					files?.length > 0 &&
-					(files[0].type === 'image/jpeg' || files[0].type === 'image/png'),
-				{ message: 'Wymagany format pliku to png lub jpg' }
+				(files) => {
+					const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+					return validTypes.includes(files[0]?.type);
+				},
+				{
+					message: 'Wymagany format pliku to JPG lub PNG',
+				}
 			),
 	});
 
-const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className }) => {
+const FormComponent = ({
+	setIsFormSubmitted,
+	setUserCv,
+	setUserData,
+	className,
+}) => {
 	const [isExperienceChecked, setIsExperienceChecked] = useState(false);
 
 	const {
 		register,
 		handleSubmit,
 		reset,
-		watch,
 		formState: { errors },
 		control,
 	} = useForm({
@@ -90,12 +102,9 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 		name: 'experience',
 	});
 
-	const isCvAdded = watch('cv');
-
 	const onSubmit = (data) => {
-		const fileURL = URL.createObjectURL(isCvAdded[0]);
 		setIsFormSubmitted(true);
-		setModalImg(fileURL);
+		setUserCv(URL.createObjectURL(data.cv[0]));
 		setUserData(data);
 		reset();
 	};
@@ -108,51 +117,38 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 				onSubmit={handleSubmit(onSubmit)}
 				encType='multipart/form-data'
 			>
-				<div>
-					<h2>Dane osobowe</h2>
-					<input
-						type='text'
-						id='firstName'
+				<FormSectionComponent headerText='Dane osobowe'>
+					<InputComponent
 						name='firstName'
 						placeholder='Imię'
-						{...register('firstName')}
+						register={register}
+						classNameError={style.error}
+						error={errors.firstName}
 					/>
-					{errors.firstName && (
-						<span className={style.error}>{errors.firstName.message}</span>
-					)}
-					<input
-						type='text'
-						id='lastName'
+					<InputComponent
 						name='lastName'
 						placeholder='Nazwisko'
-						{...register('lastName')}
+						register={register}
+						classNameError={style.error}
+						error={errors.lastName}
 					/>
-					{errors.lastName && (
-						<span className={style.error}>{errors.lastName.message}</span>
-					)}
-					<input
-						type='text'
-						id='email'
+					<InputComponent
 						name='email'
 						placeholder='E-mail'
-						{...register('email')}
+						register={register}
+						classNameError={style.error}
+						error={errors.email}
 					/>
-					{errors.email && (
-						<span className={style.error}>{errors.email.message}</span>
-					)}
-					<input
+					<InputComponent
 						type='number'
-						id='phoneNumber'
 						name='phoneNumber'
 						placeholder='Numer telefonu'
-						{...register('phoneNumber')}
+						register={register}
+						error={errors.phoneNumber}
+						classNameError={style.error}
 					/>
-					{errors.phoneNumber && (
-						<span className={style.error}>{errors.phoneNumber.message}</span>
-					)}
-				</div>
-				<div>
-					<h2>Preferencje Kursu</h2>
+				</FormSectionComponent>
+				<FormSectionComponent headerText='Preferencje Kursu'>
 					<div className={style.row}>
 						<p>Wybierz formę nauki:</p>
 						<div>
@@ -166,7 +162,6 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 							/>
 							<label htmlFor='stationary'>Stacjonarne</label>
 						</div>
-
 						<div>
 							<input
 								type='radio'
@@ -178,38 +173,34 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 							<label htmlFor='online'>Online</label>
 						</div>
 					</div>
-
-					<select
+					<SelectComponent
+						name='prefTechnology'
 						className={style.select_pref_tech}
 						size={5}
 						multiple
-						{...register('prefTechnology')}
-					>
-						<option value='React'>React</option>
-						<option value='Node.js'>Node.js</option>
-						<option value='CSS'>CSS</option>
-						<option value='HTML'>HTML</option>
-						<option value='Next.js'>Next.js</option>
-					</select>
+						register={register}
+						options={[
+							{ value: 'React', text: 'React' },
+							{ value: 'Node.js', text: 'Node.js' },
+							{ value: 'CSS', text: 'CSS' },
+							{ value: 'HTML', text: 'HTML' },
+							{ value: 'Next.js', text: 'Next.js' },
+						]}
+					/>
 					{errors.prefTechnology && (
 						<span className={style.error}>{errors.prefTechnology.message}</span>
 					)}
-				</div>
-
-				<div>
-					<h2>Dodaj swoje CV</h2>
-					<input
+				</FormSectionComponent>
+				<FormSectionComponent headerText='Dodaj swoje CV'>
+					<InputComponent
 						type='file'
 						name='cv'
-						id='cv'
-						accept='image/jpeg, image/png'
-						{...register('cv', { required: true })}
+						register={register}
+						error={errors.cv}
+						classNameError={style.error}
 					/>
-				</div>
-				{errors.cv && <span className={style.error}>{errors.cv.message}</span>}
-
-				<div>
-					<h2>Doświadczenie w programowaniu</h2>
+				</FormSectionComponent>
+				<FormSectionComponent headerText='Doświadczenie w programowaniu'>
 					<div className={style.row}>
 						<input
 							type='checkbox'
@@ -250,32 +241,26 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 										key={field.id}
 										className={style.add_exp_box}
 									>
-										<select
-											{...register(`experience.${index}.expTechnology`, {
-												required: isExperienceChecked
-													? 'Wybierz technologię'
-													: false,
-											})}
-										>
-											<option value='JavaScript'>JavaScript</option>
-											<option value='Java'>Java</option>
-											<option value='Python'>Python</option>
-										</select>
-
-										<select
-											{...register(`experience.${index}.yearsOfExperience`, {
-												required: isExperienceChecked
-													? 'Wybierz lata doświadczenia'
-													: false,
-											})}
-										>
-											<option value='1'>1</option>
-											<option value='2'>2</option>
-											<option value='3'>3</option>
-											<option value='4'>4</option>
-											<option value='5'>5</option>
-										</select>
-
+										<SelectComponent
+											name={`experience.${index}.expTechnology`}
+											register={register}
+											options={[
+												{ value: 'JavaScript', text: 'JavaScript' },
+												{ value: 'Java', text: 'Java' },
+												{ value: 'Python', text: 'Python' },
+											]}
+										/>
+										<SelectComponent
+											name={`experience.${index}.yearsOfExperience`}
+											register={register}
+											options={[
+												{ value: '1', text: '1' },
+												{ value: '2', text: '2' },
+												{ value: '3', text: '3' },
+												{ value: '4', text: '4' },
+												{ value: '5', text: '5' },
+											]}
+										/>
 										<ButtonComponent
 											text='Usuń'
 											className={style.delete_exp_button}
@@ -293,7 +278,7 @@ const FormComponent = ({ setIsFormSubmitted, setModalImg, setUserData, className
 							))}
 						</>
 					)}
-				</div>
+				</FormSectionComponent>
 				<ButtonComponent
 					type='submit'
 					text='Wyślij zgłoszenie'

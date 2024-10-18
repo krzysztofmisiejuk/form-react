@@ -1,25 +1,25 @@
-import { useState } from 'react';
 import { FormComponent, FormSummary } from './components/index.js';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 	const [userData, setUserData] = useState(null);
-	const [modalImg, setModalImg] = useState(null);
+	const [userCv, setUserCv] = useState(null);
 
 	return (
 		<>
 			{isFormSubmitted ? (
 				<FormSummary
 					className='main_container'
-					imgSrc={modalImg}
+					userCv={userCv}
 					userData={userData}
 				/>
 			) : (
 				<FormComponent
 					className='main_container'
 					setIsFormSubmitted={setIsFormSubmitted}
-					setModalImg={setModalImg}
+					setUserCv={setUserCv}
 					setUserData={setUserData}
 				/>
 			)}

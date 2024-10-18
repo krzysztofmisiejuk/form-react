@@ -1,4 +1,4 @@
-
+import './ButtonComponent.module.css';
 
 const ButtonComponent = ({ type, className, onClick, text }) => {
 	return (
@@ -6,7 +6,9 @@ const ButtonComponent = ({ type, className, onClick, text }) => {
 			type={type}
 			className={className}
 			onClick={onClick}
-		>{text}</button>
+		>
+			{text}
+		</button>
 	);
 };
 

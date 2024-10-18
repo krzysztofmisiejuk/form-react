@@ -1,14 +1,4 @@
-#root {
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-}
-div {
-	text-align: center;
-}
-
-
-form div {
+.form_section {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -16,7 +6,7 @@ form div {
 	justify-content: start;
 	color: white;
 }
-form div .row {
+.row {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -24,16 +14,21 @@ form div .row {
 	text-align: left;
 	flex-wrap: nowrap;
 }
-form div .row div {
+.row div {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	align-items: center;
 	max-width: 30%;
 	font-size: 0.85rem;
 	border: none;
 }
 
-form div .row p {
+input[type="radio"]{
+	align-self: start;
+}
+
+.row p {
 	font-size: 0.85rem;
 }
 
